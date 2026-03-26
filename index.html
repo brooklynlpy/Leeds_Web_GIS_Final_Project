@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--The head section stores page title and links to CSS links,
+  JavaScript libraries, and any other file references needed by the webpage-->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbendazim Concentration Visualization</title>
+  <!--Link to the Leaflet stylesheet.
+  the CSS link should be placed before the Leaflet JavaScript file.
+  This stylesheet controls the default map appearance.-->
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+  <!--Link to the Leaflet JavaScript library.
+  This library provides the mapping functions used later in the project,
+  such as creating the map object, adding tiles, markers, and popups-->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+  <!--Link to the project CSS and JavaScript files.
+  The CSS file controls the layout and design of the page.
+  The JavaScript file contains the interactive functions,
+  including map creation, data loading, filtering, and popups-->
+  <link rel="stylesheet" href="Web_GIS_Project.css" />
+  <script src="Web_GIS_Project.js"></script>
+</head>
+
+<!--The body section contains the visible content of the webpage.
+in this project, the initialize() function is called when the page loads,
+so the Leaflet map and the dataset are prepared automatically-->
+<body onload="initialize()">
+  <!--Main wrapper div used to contain all page content.
+  This makes it easier to control overall layout using CSS.-->
+  <div class="page">
+    <!--Header section for the project title and introduction-->
+    <header class="hero">
+      <h1>Carbendazim Concentration Web GIS</h1>
+      <p>
+        Interactive visualisation of carbendazim concentrations across environmental media in China.
+      </p>
+    </header>
+    <!--Information panel placed above the controls and map.
+      This section provides background context, a chemical structure image,
+      and selected references so the page includes both map content
+      and supporting information.-->
+    <section class="info-panel">
+      <!--Grid container used to organise the information into multiple cards.
+      Each card represents a separate topic area.-->
+      <div class="info-grid">
+        <!--The background explains what carbendazim is and what the purpose of the project is.-->
+        <div class="info-card">
+          <h2>Background</h2>
+          <p>
+            Carbendazim is a widely used benzimidazole fungicide that has been detected in multiple
+            environmental media, including soil and water, and has attracted attention because of its
+            ecological risks and potential exposure pathways.
+          </p>
+          <p>
+            This project presents an interactive Web GIS of carbendazim occurrence in China. Users can
+            explore spatial patterns, filter results by media, year and month, and review supporting
+            study information linked to individual sampling locations.
+          </p>
+        </div>
+
+        <!--For the Chemical structure card. Here attach a chemical structure of carbendazim-->
+        <div class="info-card structure-card">
+          <h2>Chemical structure</h2>
+          <img src="Carbendazim_Structural.png" alt="Carbendazim chemical structure" class="structure-img" />
+          <p class="structure-caption">
+            Carbendazim, molecular formula C9H9N3O2.
+          </p>
+        </div>
+
+        <!--Reference card.This uses a simple unordered list to provide source material
+        related to the mapped chemical and the wider project topic.-->
+        <div class="info-card">
+          <h2>Selected references</h2>
+          <ul class="ref-list">
+            <li>
+              <a href="https://pubmed.ncbi.nlm.nih.gov/36592835/" target="_blank">
+                Zhou et al. (2023) Carbendazim: Ecological risks, toxicities, degradation and analysis methods.
+              </a>
+            </li>
+            <li>
+              <a href="https://pubmed.ncbi.nlm.nih.gov/25697474/" target="_blank">
+                Li et al. (2015) Biocides in the Yangtze River of China: spatiotemporal distribution, mass load and risk assessment.
+              </a>
+            </li>
+            <li>
+              <a href="https://pubchem.ncbi.nlm.nih.gov/compound/Carbendazim" target="_blank">
+                PubChem: Carbendazim compound summary and molecular information.
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!--Control panel section. Webpage includes buttons, dropdown menus,
+    and other interactive elements which trigger JavaScript functions.
+    This section performs that role in the final project-->
+    <section class="controls">
+      <!--First control row for dropdown filters.
+      These select elements are filled dynamically using JavaScript
+      after the dataset has been loaded.--> 
+      <div class="control-row">
+        <label for="mediaSelect">Media</label>
+        <select id="mediaSelect">
+          <option value="">All media</option>
+        </select>
+        <label for="yearSelect">Year</label>
+        <select id="yearSelect">
+          <option value="">All years</option>
+        </select>
+        <label for="monthSelect">Month</label>
+        <select id="monthSelect">
+          <option value="">All months</option>
+        </select>
+      </div>
+
+      <!--Second control row for keyword search and action buttons.
+      Each button calls a JavaScript function when clicked,
+      which is a common client-side interaction pattern from the module-->
+      <div class="control-row">
+        <label for="keywordInput">Keyword</label>
+        <input id="keywordInput" type="text" placeholder="e.g. soil, surface water, Yangtze" />
+        <button onclick="filterData()">Filter data</button>
+        <button onclick="resetFilters()">Reset</button>
+        <button onclick="zoomToAll()">Zoom to all</button>
+      </div>
+      <!--Statistics row. These boxes display summary values which are updated by JavaScript
+      after the data is loaded or filtered-->
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-label">Total records</span>
+          <span class="stat-value" id="totalCount">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Displayed records</span>
+          <span class="stat-value" id="displayCount">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Max concentration</span>
+          <span class="stat-value" id="maxConc">-</span>
+        </div>
+      </div>
+    </section>
+
+    <!--Map panel section. The div with id="mapdiv" is the container that hosts the Leaflet map object.
+    This follows the same pattern used in the earlier Leaflet units-->
+    <section class="map-panel">
+      <div id="mapdiv"></div>
+    </section>
+  </div>
+</body>
+</html>
