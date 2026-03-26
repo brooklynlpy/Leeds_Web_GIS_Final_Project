@@ -1,0 +1,316 @@
+/* Set the basic style for the whole page.
+Remove default spacing and set the font, background, and text colour.*/
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+/* Main page wrapper. This centres the page content and limits the maximum width
+so the layout does not stretch too widely on large screens.*/ 
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Top banner at the top of the page. 
+For the project title and short introduction.*/
+.hero {
+  background: linear-gradient(135deg, #1d3557, #457b9d);
+  color: white;
+  padding: 24px;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/*Main heading inside the hero section. 
+Margin is adjusted so the heading sits neatly in the banner.*/
+.hero h1 {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+}
+
+/*Introductory paragraph under the main title.
+Line-height improves readability.*/
+.hero p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/*Outer wrapper for the information section.
+This creates spacing between the information cards and the next section.*/
+.info-panel {
+  margin-bottom: 18px;
+}
+
+/*Grid layout for the three information cards. 
+The cards are displayed in three equal columns on wider screens.*/
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* Shared the card styling for the background, image, and reference panels. 
+This gives them the same white panel appearance as the controls and map section.*/
+.info-card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5edf6;
+}
+
+/*Subheadings inside each information card.*/
+.info-card h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.15rem;
+  color: #1d3557;
+}
+
+/* Paragraph styling inside the information cards.
+This keeps text readable and evenly spaced.*/
+.info-card p {
+  line-height: 1.55;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+/* Special alignment for the chemical structure card. 
+Text and image are centred to suit the image content.*/
+.structure-card {
+  text-align: center;
+}
+
+/* Chemical structure image styling.
+max-width: 100% allows the image to shrink on smaller screens.
+height: auto keeps the image proportion correct.*/
+.structure-img {
+  width: 280px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+/*Styling for the reference list.
+A small left padding keeps bullet points aligned neatly.*/
+.ref-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/*Spacing and readability for each reference item.*/
+.ref-list li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/*Link styling for references.
+Underline is removed by default and added back on hover.*/
+.ref-list a {
+  color: #1e40af;
+  text-decoration: none;
+}
+
+/*Hover style for reference links.
+This gives visual feedback when the user moves over a link.*/
+.ref-list a:hover {
+  text-decoration: underline;
+}
+
+/*Responsive layout for the information cards. 
+On narrower screens the three-column grid becomes a single column.*/
+@media (max-width: 900px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*Panel containing filters, buttons, statistics, and status messages.
+Styled as a white card to match the rest of the dashboard layout.*/
+.controls {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+
+/*Shared layout for each row of controls.
+Flexbox is used so labels, dropdowns, inputs, and buttons
+can sit neatly in a row and wrap when needed.*/
+.control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+
+/*Label styling for dropdowns and input boxes.*/
+.control-row label {
+  font-weight: bold;
+}
+
+/*Shared styling for select menus and text input boxes.
+These controls are part of the client-side interface of the webpage.*/
+.control-row select,
+.control-row input {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: white;
+}
+
+/*Set a minimum width for the keyword search box
+so it remains usable on wider layouts.*/
+.control-row input {
+  min-width: 260px;
+}
+
+/*Button styling for all action buttons.
+These buttons trigger JavaScript functions in the webpage.*/
+.control-row button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #3152e0;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/*Hover effect for buttons.
+The colour darkens slightly and the button lifts a little.*/
+.control-row button:hover {
+  background: #1e40af;
+  transform: translateY(-1px);
+}
+
+/*Row used to display summary statistics.
+Flexbox allows the boxes to sit side by side and wrap if needed.*/
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/*Individual statistic box styling.
+Each box contains a label and a value.*/
+.stat-box {
+  background: #f8fbff;
+  border: 1px solid #dbe4f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+}
+
+/*Small label text inside each statistic box.*/
+.stat-label {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+/*Main value text inside each statistic box.*/
+.stat-value {
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+/*Status message styling.
+This box is updated by JavaScript to tell the user
+what the application is currently doing.*/
+#statusBox {
+  padding: 12px 14px;
+  background: #eef4ff;
+  border-left: 5px solid #2563eb;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+/*White panel around the map.
+This matches the style of the information and controls panels.*/
+.map-panel {
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/*Main div that hosts the Leaflet map object.
+The height is especially important because a Leaflet map
+will not display properly if its container has no height.*/
+#mapdiv {
+  width: 100%;
+  height: 680px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #dbe4f0;
+}
+
+/*Popup heading style.
+This controls the title text shown inside each Leaflet popup.*/
+.popup-wrap h3 {
+  margin: 0 0 6px 0;
+  color: #8b1e3f;
+  font-size: 0.9rem;
+}
+
+/*Popup paragraph style.
+This keeps the popup text compact and readable.*/
+.popup-wrap p {
+  margin: 4px 0;
+  line-height: 1.3;
+  font-size: 0.82rem;
+}
+
+/*Additional styling for the Leaflet popup content area.
+This helps keep popup text consistent with the custom popup layout.*/
+.leaflet-popup-content {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+/*Responsive design for tablets and smaller screens.
+The layout is adjusted so the page remains usable on narrower devices.*/
+@media (max-width: 768px) {
+  /*Reduce page padding on smaller screens*/
+  .page {
+    padding: 14px;
+  }
+  /* Make the main title slightly smaller on small screens */
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+  /* Stack controls vertically instead of horizontally */
+  .control-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  /* Make form controls and buttons fill the available width */
+  .control-row input,
+  .control-row select,
+  .control-row button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  /* Reduce map height so the map fits better on smaller displays */
+  #mapdiv {
+    height: 520px;
+  }
+}
